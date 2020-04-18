@@ -6,6 +6,8 @@ import {
   MdDeleteForever,
   MdSearch,
 } from 'react-icons/md';
+
+import history from '~/services/history';
 import api from '~/services/api';
 
 import {
@@ -16,7 +18,7 @@ import {
   ListItem,
   Item,
   ListActions,
-} from '~/styles/manager';
+} from '~/components/ListItems';
 
 export default function Recipient() {
   const [visible, setVisible] = useState();
@@ -45,6 +47,14 @@ export default function Recipient() {
     setQuery(q);
   }
 
+  function handleNavigateCreate() {
+    history.push('/recipient/create');
+  }
+
+  async function handleNavigateEdit(recipient) {
+    history.push('/recipient/edit', { recipient });
+  }
+
   return (
     <Container>
       <h2>Gerenciando destinatários</h2>
@@ -58,7 +68,7 @@ export default function Recipient() {
             onChange={e => handleQuery(e.target.value)}
           />
         </IconInput>
-        <button type="button">
+        <button type="button" onClick={handleNavigateCreate}>
           <MdAdd size={28} />
           CADASTRAR
         </button>
@@ -87,7 +97,7 @@ export default function Recipient() {
               onClick={() => handleActionsVisible(recipient.id)}
             />
             <ListActions visible={visible === recipient.id}>
-              <li>
+              <li onClick={() => handleNavigateEdit(recipient)}>
                 <MdModeEdit size={15} color="#4D85EE" />
                 <p>Editar</p>
               </li>

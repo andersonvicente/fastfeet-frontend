@@ -7,29 +7,29 @@ export default function Status({ delivery }) {
   const [color, setColor] = useState(null);
   const [text, setText] = useState(null);
 
-  function verifyStatus() {
-    if (delivery.canceled_at !== null) {
-      setText('CANCELADA');
-      setBackground('#FAB0B0');
-      setColor('#DE3B3B');
-    } else if (delivery.end_date !== null) {
-      setText('ENTREGUE');
-      setBackground('#DFF0DF');
-      setColor('#2CA42B');
-    } else if (delivery.start_date !== null) {
-      setText('RETIRADA');
-      setBackground('#BAD2FF');
-      setColor('#4D85EE');
-    } else {
-      setText('PENDENTE');
-      setBackground('#F0F0DF');
-      setColor('#C1BC35');
-    }
-  }
-
   useEffect(() => {
+    async function verifyStatus() {
+      if (delivery.canceled_at !== null) {
+        setText('CANCELADA');
+        setBackground('#FAB0B0');
+        setColor('#DE3B3B');
+      } else if (delivery.end_date !== null) {
+        setText('ENTREGUE');
+        setBackground('#DFF0DF');
+        setColor('#2CA42B');
+      } else if (delivery.start_date !== null) {
+        setText('RETIRADA');
+        setBackground('#BAD2FF');
+        setColor('#4D85EE');
+      } else {
+        setText('PENDENTE');
+        setBackground('#F0F0DF');
+        setColor('#C1BC35');
+      }
+    }
+
     verifyStatus();
-  }, []);
+  }, [delivery]);
 
   return (
     <Container background={background}>

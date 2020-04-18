@@ -26,42 +26,42 @@ export default function DeliveryForm({ data }) {
 
   const dispatch = useDispatch();
 
-  async function loadRecipients() {
-    const response = await api.get('recipients');
-
-    const select = response.data.map(item => {
-      return { value: item.id, label: item.name };
-    });
-
-    setRecipients(select);
-  }
-
-  async function loadDeliveryman() {
-    const response = await api.get('deliverymen');
-
-    const select = response.data.map(item => {
-      return { value: item.id, label: item.name };
-    });
-
-    setDeliveryman(select);
-  }
-
-  async function loadData() {
-    if (deliveryEdit) {
-      setTitle('Edição de encomendas');
-      setRecipient(deliveryEdit.recipient.id);
-      setDeliverymen(deliveryEdit.deliveryman.id);
-      setProduct(deliveryEdit.product);
-    } else {
-      setTitle('Cadastro de encomendas');
-    }
-  }
-
   useEffect(() => {
+    async function loadRecipients() {
+      const response = await api.get('recipients');
+
+      const select = response.data.map(item => {
+        return { value: item.id, label: item.name };
+      });
+
+      setRecipients(select);
+    }
+
+    async function loadDeliveryman() {
+      const response = await api.get('deliverymen');
+
+      const select = response.data.map(item => {
+        return { value: item.id, label: item.name };
+      });
+
+      setDeliveryman(select);
+    }
+
+    async function loadData() {
+      if (deliveryEdit) {
+        setTitle('Edição de encomendas');
+        setRecipient(deliveryEdit.recipient.id);
+        setDeliverymen(deliveryEdit.deliveryman.id);
+        setProduct(deliveryEdit.product);
+      } else {
+        setTitle('Cadastro de encomendas');
+      }
+    }
+
     loadRecipients();
     loadDeliveryman();
     loadData();
-  }, []);
+  }, [deliveryEdit]);
 
   function HandleNavigateBack() {
     history.goBack();

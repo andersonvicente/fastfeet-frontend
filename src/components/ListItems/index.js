@@ -3,8 +3,12 @@ import { darken } from 'polished';
 import { MdMoreHoriz } from 'react-icons/md';
 
 export const Container = styled.div`
+  width: 1200px;
   margin-top: 30px;
   margin-left: 50px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
   z-index: 1000;
 
   form {

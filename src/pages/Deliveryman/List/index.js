@@ -19,7 +19,7 @@ import {
   Avatar,
   Item,
   ListActions,
-} from '~/styles/manager';
+} from '~/components/ListItems';
 
 export default function Deliveryman() {
   const [visible, setVisible] = useState();

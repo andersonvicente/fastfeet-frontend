@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { format, parseISO } from 'date-fns';
 import { Content } from './styles';
 
@@ -25,22 +25,22 @@ export default function Modal({ showModal, delivery, handleModalClose }) {
         {delivery && (
           <>
             <h6>Informações da encomenda</h6>
-            <text>{`${delivery.recipient.address_street}, ${delivery.recipient.address_number} - ${delivery.recipient.address_complement}`}</text>
-            <text>{`${delivery.recipient.city}, ${delivery.recipient.state}`}</text>
-            <text>{delivery.recipient.zip_code}</text>
+            <span>{`${delivery.recipient.address_street}, ${delivery.recipient.address_number} - ${delivery.recipient.address_complement}`}</span>
+            <span>{`${delivery.recipient.city}, ${delivery.recipient.state}`}</span>
+            <span>{delivery.recipient.zip_code}</span>
             <hr />
             <h6>Datas</h6>
-            <text>
+            <span>
               <strong>Retirada:</strong>
               {startDateFormatted}
-            </text>
-            <text>
+            </span>
+            <span>
               <strong>Entrega:</strong>
               {endDateFormatted}
-            </text>
+            </span>
             <hr />
             <h6>Assinatura do destinatário</h6>
-            {delivery.signature && <img src={delivery.signature.url} />}
+            {delivery.signature && <img src={delivery.signature.url} alt="" />}
           </>
         )}
       </div>

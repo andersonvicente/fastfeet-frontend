@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background: #fff;
@@ -24,22 +25,25 @@ export const Content = styled.div`
       border-right: 2px solid #eee;
     }
 
-    a {
+    /* a {
       font-weight: bold;
-      color: #999;
       margin-left: 15px;
       margin-right: 15px;
-
-      strong {
-        color: #444;
-      }
-    }
+    } */
   }
 
   aside {
     display: flex;
     align-items: center;
   }
+`;
+
+export const LinkMenu = styled(Link)`
+  font-weight: bold;
+  margin-left: 15px;
+  margin-right: 15px;
+  color: ${props => (props.active === 1 ? '#444' : '#999')};
+  font: 15px bold 'Roboto', sans-serif;
 `;
 
 export const Profile = styled.div`

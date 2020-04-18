@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MdMoreHoriz, MdModeEdit, MdDeleteForever } from 'react-icons/md';
+import { MdMoreHoriz, MdRemoveRedEye } from 'react-icons/md';
 import api from '~/services/api';
 
 import {
@@ -9,11 +9,14 @@ import {
   ListItem,
   Item,
   ListActions,
-} from '~/styles/manager';
+} from '~/components/ListItems';
+import Modal from './Modal';
 
 export default function Problem() {
   const [visible, setVisible] = useState();
   const [problems, setProblems] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [problemModal, setProblemModal] = useState(null);
 
   useEffect(() => {
     async function loadProblems() {
@@ -29,6 +32,16 @@ export default function Problem() {
     id = visible === id ? null : id;
 
     setVisible(id);
+  }
+
+  function handleModalShowContent(problem) {
+    setProblemModal(problem);
+    setVisible(null);
+    setShowModal(true);
+  }
+
+  function handleModalClose() {
+    setShowModal(false);
   }
 
   return (
@@ -54,18 +67,19 @@ export default function Problem() {
               onClick={() => handleActionsVisible(problem.id)}
             />
             <ListActions visible={visible === problem.id}>
-              <li>
-                <MdModeEdit size={15} color="#4D85EE" />
-                <p>Editar</p>
-              </li>
-              <li>
-                <MdDeleteForever size={15} color="#DE3B3B" />
-                <p>Excluir</p>
+              <li onClick={() => handleModalShowContent(problem)}>
+                <MdRemoveRedEye size={15} color="#8E5BE8" />
+                <p>Visualizar</p>
               </li>
             </ListActions>
           </Item>
         </ListItem>
       ))}
+      <Modal
+        showModal={showModal}
+        problem={problemModal}
+        handleModalClose={handleModalClose}
+      />
     </Container>
   );
 }

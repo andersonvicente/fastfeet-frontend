@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { MdChevronLeft, MdCheck } from 'react-icons/md';
 

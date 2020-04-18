@@ -18,7 +18,7 @@ export const Point = styled.div`
   background: ${props => props.color};
 `;
 
-export const Text = styled.text`
+export const Text = styled.span`
   font-weight: bold;
   margin: 0 5px 0 0;
   color: ${props => props.color};

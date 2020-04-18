@@ -21,7 +21,7 @@ import {
   Item,
   ButtonActions,
   ListActions,
-} from '~/styles/manager';
+} from '~/components/ListItems';
 import Modal from './Modal';
 
 export default function Delivery() {
@@ -38,8 +38,6 @@ export default function Delivery() {
       });
 
       setDeliveries(response.data);
-
-      console.tron.log(response.data);
     }
 
     loadDeliveries();

@@ -9,6 +9,8 @@ import {
   createFailure,
   updateSuccess,
   updateFailure,
+  removeSuccess,
+  removeFailure,
 } from './actions';
 
 export function* create({ payload }) {
@@ -29,7 +31,11 @@ export function* create({ payload }) {
 
     history.push('/delivery');
   } catch (err) {
-    toast.error(err && err.response && err.response.data && err.response.data.error ? err.response.data.error :  'Falha ao cadastrar encomenda');
+    toast.error(
+      err && err.response && err.response.data && err.response.data.error
+        ? err.response.data.error
+        : 'Falha ao cadastrar encomenda'
+    );
     yield put(createFailure());
   }
 }
@@ -52,12 +58,36 @@ export function* update({ payload }) {
 
     history.push('/delivery');
   } catch (err) {
-    toast.error(err && err.response && err.response.data && err.response.data.error ? err.response.data.error :  'Falha ao atualizar encomenda');
+    toast.error(
+      err && err.response && err.response.data && err.response.data.error
+        ? err.response.data.error
+        : 'Falha ao atualizar encomenda'
+    );
     yield put(updateFailure());
+  }
+}
+
+export function* remove({ payload }) {
+  try {
+    const { id } = payload.data;
+
+    yield call(api.delete, `deliveries/${id}`);
+
+    toast.success('Encomenda excluída com sucesso!');
+
+    yield put(removeSuccess());
+  } catch (err) {
+    toast.error(
+      err && err.response && err.response.data && err.response.data.error
+        ? err.response.data.error
+        : 'Falha ao excluir encomenda'
+    );
+    yield put(removeFailure());
   }
 }
 
 export default all([
   takeLatest('@delivery/CREATE_REQUEST', create),
   takeLatest('@delivery/UPDATE_REQUEST', update),
+  takeLatest('@delivery/REMOVE_REQUEST', remove),
 ]);

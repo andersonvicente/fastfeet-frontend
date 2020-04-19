@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { MdRemoveRedEye } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { MdRemoveRedEye, MdDeleteForever } from 'react-icons/md';
 import api from '~/services/api';
+
+import { cancelDeliveryRequest } from '~/store/modules/problem/actions';
 
 import {
   Container,
@@ -14,6 +17,8 @@ import {
 import Modal from './Modal';
 
 export default function Problem() {
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState();
   const [problems, setProblems] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -45,6 +50,18 @@ export default function Problem() {
     setShowModal(false);
   }
 
+  async function handleCancelDelivery(id) {
+    setVisible(null);
+    const r = window.confirm('Confirma o cancelamento desta encomenda?');
+    if (r === true) {
+      dispatch(
+        cancelDeliveryRequest({
+          id,
+        })
+      );
+    }
+  }
+
   return (
     <Container>
       <h2>Problemas na entrega</h2>
@@ -71,6 +88,10 @@ export default function Problem() {
               <li onClick={() => handleModalShowContent(problem)}>
                 <MdRemoveRedEye size={15} color="#8E5BE8" />
                 <p>Visualizar</p>
+              </li>
+              <li onClick={() => handleCancelDelivery(problem.id)}>
+                <MdDeleteForever size={15} color="#DE3B3B" />
+                <p>Cancelar encomenda</p>
               </li>
             </ListActions>
           </Item>

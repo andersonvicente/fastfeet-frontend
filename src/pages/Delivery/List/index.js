@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   MdAdd,
   MdRemoveRedEye,
@@ -8,6 +9,8 @@ import {
 } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
+
+import { removeRequest } from '~/store/modules/delivery/actions';
 
 import Status from '~/components/Status';
 
@@ -25,11 +28,15 @@ import {
 import Modal from './Modal';
 
 export default function Delivery() {
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState();
   const [query, setQuery] = useState(null);
   const [deliveries, setDeliveries] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState(null);
+
+  const reload = useSelector(state => state.delivery.reload);
 
   useEffect(() => {
     async function loadDeliveries() {
@@ -41,7 +48,7 @@ export default function Delivery() {
     }
 
     loadDeliveries();
-  }, [query]);
+  }, [query, reload]);
 
   function handleActionsVisible(id) {
     id = visible === id ? null : id;
@@ -59,6 +66,18 @@ export default function Delivery() {
 
   function handleNavigateEdit(delivery) {
     history.push('/delivery/edit', { delivery });
+  }
+
+  async function handleRemove(id) {
+    setVisible(null);
+    const r = window.confirm('Confirma a exclusão desta encomenda?');
+    if (r === true) {
+      dispatch(
+        removeRequest({
+          id,
+        })
+      );
+    }
   }
 
   function handleModalShowContent(delivery) {
@@ -130,7 +149,7 @@ export default function Delivery() {
                 <MdModeEdit size={15} color="#4D85EE" />
                 <p>Editar</p>
               </li>
-              <li>
+              <li onClick={() => handleRemove(delivery.id)}>
                 <MdDeleteForever size={15} color="#DE3B3B" />
                 <p>Excluir</p>
               </li>

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  MdAdd,
-  MdModeEdit,
-  MdDeleteForever,
-  MdSearch,
-} from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdAdd, MdModeEdit, MdDeleteForever, MdSearch } from 'react-icons/md';
 
 import history from '~/services/history';
 import api from '~/services/api';
+
+import { removeRequest } from '~/store/modules/recipient/actions';
 
 import {
   Container,
@@ -21,9 +19,13 @@ import {
 } from '~/components/ListItems';
 
 export default function Recipient() {
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState();
   const [query, setQuery] = useState(null);
   const [recipients, setRecipients] = useState([]);
+
+  const reload = useSelector(state => state.recipient.reload);
 
   useEffect(() => {
     async function loadRecipients() {
@@ -35,7 +37,7 @@ export default function Recipient() {
     }
 
     loadRecipients();
-  }, [query]);
+  }, [query, reload]);
 
   function handleActionsVisible(id) {
     id = visible === id ? null : id;
@@ -53,6 +55,18 @@ export default function Recipient() {
 
   async function handleNavigateEdit(recipient) {
     history.push('/recipient/edit', { recipient });
+  }
+
+  async function handleRemove(id) {
+    setVisible(null);
+    const r = window.confirm('Confirma a exclusão deste destinatário?');
+    if (r === true) {
+      dispatch(
+        removeRequest({
+          id,
+        })
+      );
+    }
   }
 
   return (
@@ -101,7 +115,7 @@ export default function Recipient() {
                 <MdModeEdit size={15} color="#4D85EE" />
                 <p>Editar</p>
               </li>
-              <li>
+              <li onClick={() => handleRemove(recipient.id)}>
                 <MdDeleteForever size={15} color="#DE3B3B" />
                 <p>Excluir</p>
               </li>

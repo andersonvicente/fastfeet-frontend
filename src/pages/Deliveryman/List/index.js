@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  MdAdd,
-  MdModeEdit,
-  MdDeleteForever,
-  MdSearch,
-} from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdAdd, MdModeEdit, MdDeleteForever, MdSearch } from 'react-icons/md';
 
 import history from '~/services/history';
 import api from '~/services/api';
@@ -27,9 +22,10 @@ export default function Deliveryman() {
   const [visible, setVisible] = useState();
   const [query, setQuery] = useState(null);
   const [deliverymen, setDeliverymen] = useState([]);
-  const [reload, setReload] = useState(false);
 
   const dispatch = useDispatch();
+
+  const reload = useSelector(state => state.deliveryman.reload);
 
   useEffect(() => {
     async function loadDeliverymen() {
@@ -38,7 +34,6 @@ export default function Deliveryman() {
       });
 
       setDeliverymen(response.data);
-      setReload(false);
     }
 
     loadDeliverymen();
@@ -59,12 +54,14 @@ export default function Deliveryman() {
   }
 
   async function handleRemove(id) {
-    const r = window.confirm("Confirma a exclusão deste entregador?");
+    setVisible(null);
+    const r = window.confirm('Confirma a exclusão deste entregador?');
     if (r === true) {
-      dispatch(removeRequest({
-        id
-      }));
-      setReload(true);
+      dispatch(
+        removeRequest({
+          id,
+        })
+      );
     }
   }
 
@@ -109,7 +106,13 @@ export default function Deliveryman() {
             {`#${deliveryman.id}`}
           </Item>
           <Item width="24%" center>
-            <Avatar src={deliveryman.avatar ? deliveryman.avatar.url : `https://api.adorable.io/avatars/40/${deliveryman.name}.png`} />
+            <Avatar
+              src={
+                deliveryman.avatar
+                  ? deliveryman.avatar.url
+                  : `https://api.adorable.io/avatars/40/${deliveryman.name}.png`
+              }
+            />
           </Item>
           <Item width="30%">{deliveryman.name}</Item>
           <Item width="30%">{deliveryman.email}</Item>

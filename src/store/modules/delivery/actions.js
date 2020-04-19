@@ -37,3 +37,22 @@ export function updateFailure() {
     type: '@delivery/UPDATE_FAILURE',
   };
 }
+
+export function removeRequest(data) {
+  return {
+    type: '@delivery/REMOVE_REQUEST',
+    payload: { data },
+  };
+}
+
+export function removeSuccess() {
+  return {
+    type: '@delivery/REMOVE_SUCCESS',
+  };
+}
+
+export function removeFailure() {
+  return {
+    type: '@delivery/REMOVE_FAILURE',
+  };
+}

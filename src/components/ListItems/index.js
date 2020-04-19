@@ -138,7 +138,7 @@ export const ButtonActions = styled(MdMoreHoriz)`
 
 export const ListActions = styled.ul`
   position: absolute;
-  width: 150px;
+  width: 200px;
   left: calc(-55px);
   top: calc(55px);
   background: #fff;

@@ -29,8 +29,7 @@ export function* create({ payload }) {
 
     history.push('/delivery');
   } catch (err) {
-    console.tron.log(err);
-    toast.error('Falha ao cadastrar encomenda');
+    toast.error(err && err.response && err.response.data && err.response.data.error ? err.response.data.error :  'Falha ao cadastrar encomenda');
     yield put(createFailure());
   }
 }
@@ -53,8 +52,7 @@ export function* update({ payload }) {
 
     history.push('/delivery');
   } catch (err) {
-    console.tron.log(err);
-    toast.error('Falha ao atualizar encomenda');
+    toast.error(err && err.response && err.response.data && err.response.data.error ? err.response.data.error :  'Falha ao atualizar encomenda');
     yield put(updateFailure());
   }
 }

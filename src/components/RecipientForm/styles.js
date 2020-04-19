@@ -31,6 +31,7 @@ export const Container = styled.div`
       }
 
       > div {
+        margin-top: 20px;
         width: 900px;
         height: 300px;
         display: flex;

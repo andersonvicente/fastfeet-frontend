@@ -23,7 +23,7 @@ export function* signIn({ payload }) {
 
     history.push('/delivery');
   } catch (err) {
-    toast.error('Falha na autenticação, verifique seus dados');
+    toast.error(err && err.response && err.response.data && err.response.data.error ? err.response.data.error :  'Falha na autenticação, verifique seus dados');
     yield put(signFailure());
   }
 }

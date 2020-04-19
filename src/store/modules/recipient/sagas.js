@@ -41,8 +41,7 @@ export function* create({ payload }) {
 
     history.push('/recipient');
   } catch (err) {
-    console.tron.log(err);
-    toast.error('Falha ao cadastrar destinatário');
+    toast.error(err && err.response && err.response.data && err.response.data.error ? err.response.data.error :  'Falha ao cadastrar destinatário');
     yield put(createFailure());
   }
 }
@@ -78,8 +77,7 @@ export function* update({ payload }) {
 
     history.push('/recipient');
   } catch (err) {
-    console.tron.log(err);
-    toast.error('Falha ao atualizar destinatário');
+    toast.error(err && err.response && err.response.data && err.response.data.error ? err.response.data.error :  'Falha ao atualizar destinatário');
     yield put(updateFailure());
   }
 }

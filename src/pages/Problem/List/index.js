@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MdMoreHoriz, MdRemoveRedEye } from 'react-icons/md';
+import { MdRemoveRedEye } from 'react-icons/md';
 import api from '~/services/api';
 
 import {
@@ -9,6 +9,7 @@ import {
   ListItem,
   Item,
   ListActions,
+  ButtonActions,
 } from '~/components/ListItems';
 import Modal from './Modal';
 
@@ -61,7 +62,7 @@ export default function Problem() {
           <Item width="15%" center>{`#${problem.delivery.id}`}</Item>
           <Item width="75%">{problem.description}</Item>
           <Item width="10%" center>
-            <MdMoreHoriz
+            <ButtonActions
               size={25}
               color="#ddd"
               onClick={() => handleActionsVisible(problem.id)}

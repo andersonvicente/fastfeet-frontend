@@ -143,7 +143,7 @@ export const ListActions = styled.ul`
   top: calc(55px);
   background: #fff;
   border-radius: 4px;
-  padding: 0 10px;
+  padding: 0 0px;
   border: 1px solid;
   border-color: #ddd;
   display: ${props => (props.visible ? 'block' : 'none')};
@@ -152,10 +152,13 @@ export const ListActions = styled.ul`
   li {
     display: flex;
     flex-direction: initial;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 10px 10px 10px;
     border-bottom: 1px solid #eee;
     cursor: pointer;
+
+    &:hover {
+      background: ${darken(0.05, '#fff')};
+    }
 
     p {
       margin-left: 5px;

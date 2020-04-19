@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   MdAdd,
-  MdMoreHoriz,
   MdModeEdit,
   MdDeleteForever,
   MdSearch,
@@ -18,6 +17,7 @@ import {
   ListItem,
   Item,
   ListActions,
+  ButtonActions,
 } from '~/components/ListItems';
 
 export default function Recipient() {
@@ -91,7 +91,7 @@ export default function Recipient() {
           <Item width="30%">{recipient.name}</Item>
           <Item width="50%">{`${recipient.address_street}, ${recipient.address_number} - ${recipient.address_complement}, ${recipient.city} - ${recipient.state}`}</Item>
           <Item width="10%" center>
-            <MdMoreHoriz
+            <ButtonActions
               size={25}
               color="#ddd"
               onClick={() => handleActionsVisible(recipient.id)}

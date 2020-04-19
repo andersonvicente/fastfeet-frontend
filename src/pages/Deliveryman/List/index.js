@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   MdAdd,
-  MdMoreHoriz,
   MdModeEdit,
   MdDeleteForever,
   MdSearch,
@@ -9,6 +9,7 @@ import {
 
 import history from '~/services/history';
 import api from '~/services/api';
+import { removeRequest } from '~/store/modules/deliveryman/actions';
 
 import {
   Container,
@@ -19,12 +20,16 @@ import {
   Avatar,
   Item,
   ListActions,
+  ButtonActions,
 } from '~/components/ListItems';
 
 export default function Deliveryman() {
   const [visible, setVisible] = useState();
   const [query, setQuery] = useState(null);
   const [deliverymen, setDeliverymen] = useState([]);
+  const [reload, setReload] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadDeliverymen() {
@@ -33,10 +38,11 @@ export default function Deliveryman() {
       });
 
       setDeliverymen(response.data);
+      setReload(false);
     }
 
     loadDeliverymen();
-  }, [query]);
+  }, [query, reload]);
 
   async function handleNavigateCreate() {
     history.push('/deliveryman/create');
@@ -50,6 +56,16 @@ export default function Deliveryman() {
 
   async function handleNavigateEdit(deliveryman) {
     history.push('/deliveryman/edit', { deliveryman });
+  }
+
+  async function handleRemove(id) {
+    const r = window.confirm("Confirma a exclusão deste entregador?");
+    if (r === true) {
+      dispatch(removeRequest({
+        id
+      }));
+      setReload(true);
+    }
   }
 
   async function handleQuery(q) {
@@ -93,12 +109,12 @@ export default function Deliveryman() {
             {`#${deliveryman.id}`}
           </Item>
           <Item width="24%" center>
-            <Avatar src={deliveryman.avatar.url} />
+            <Avatar src={deliveryman.avatar ? deliveryman.avatar.url : `https://api.adorable.io/avatars/40/${deliveryman.name}.png`} />
           </Item>
           <Item width="30%">{deliveryman.name}</Item>
           <Item width="30%">{deliveryman.email}</Item>
           <Item width="8%" center>
-            <MdMoreHoriz
+            <ButtonActions
               size={25}
               color="#ddd"
               onClick={() => handleActionsVisible(deliveryman.id)}
@@ -108,7 +124,7 @@ export default function Deliveryman() {
                 <MdModeEdit size={15} color="#4D85EE" />
                 <p>Editar</p>
               </li>
-              <li>
+              <li onClick={() => handleRemove(deliveryman.id)}>
                 <MdDeleteForever size={15} color="#DE3B3B" />
                 <p>Excluir</p>
               </li>
